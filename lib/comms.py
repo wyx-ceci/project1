@@ -42,7 +42,6 @@ class StealthConn(object):
             print("Shared hash: {}".format(self.shared_secret.hex()))
 
 
-
     def send(self, data):
         if self.shared_secret:
             # generating unique session ID
@@ -66,7 +65,7 @@ class StealthConn(object):
                 print()
                 print("Original message : {}".format(data))
                 print("Encrypted data: {}".format(repr(data_to_send)))
-                print("Sending packet of length: {}".format(len(data_to_send)))
+                print("Sending packet of length: {}".format(len(data)))
                 print()
 
         else:
@@ -78,9 +77,6 @@ class StealthConn(object):
 
         self.conn.sendall(pkt_len)
         self.conn.sendall(data_to_send)
-
-
-
 
 
     def recv(self):
