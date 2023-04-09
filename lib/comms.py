@@ -42,6 +42,7 @@ class StealthConn(object):
             print("Shared hash: {}".format(self.shared_secret.hex()))
 
 
+
     def send(self, data):
         if self.shared_secret:
             # generating unique session ID
@@ -79,6 +80,9 @@ class StealthConn(object):
         self.conn.sendall(data_to_send)
 
 
+
+
+
     def recv(self):
         # Decode the data's length from an unsigned two byte int ('H')
         pkt_len_packed = self.conn.recv(struct.calcsize("H"))
@@ -91,9 +95,10 @@ class StealthConn(object):
             # unpack the package to obtain all information
             encrypted_data = self.conn.recv(pkt_len)
             hmac_received = encrypted_data[:64]
+            self.rand_IV = encrypted_data[-32:-16]
             session_ID = encrypted_data[:-16]
             encrypted_data = encrypted_data[64:-32]
-            self.rand_IV = self.shared_secret[:16]
+
 
             self.hmac.update(encrypted_data)
             hmac_data = self.hmac.hexdigest().encode()
